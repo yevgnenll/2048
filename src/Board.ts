@@ -1,5 +1,6 @@
 import Finder from "./Finder"
 import Calculator from "./Calculator";
+import NumberGenerator from "./NumberGenerator";
 
 class Board {
 
@@ -9,6 +10,7 @@ class Board {
     private readonly height: number;
     private readonly finder: Finder
     private calculator: Calculator
+    private randomGenerator: NumberGenerator
 
     constructor(length: number) {
         this.width = length;
@@ -17,6 +19,7 @@ class Board {
         this.init();
         this.finder = new Finder(length)
         this.calculator = new Calculator(length, this.finder)
+        this.randomGenerator = new NumberGenerator()
         console.log('init', this.arr)
     }
 
@@ -47,6 +50,11 @@ class Board {
             this.calculator.assignValueRightEvent(this.arr, calculatedList, row)
         }
 
+        this.randomGenerator.assignRandom(this.arr)
+        this.drawArrayToHtml()
+    }
+
+    drawArrayToHtml() {
         for (let row = 0; row < this.height; row ++) {
             for (let col = 0; col < this.width; col ++) {
                 this.modifyHtmlRightEvent(row, col)
@@ -57,7 +65,6 @@ class Board {
     modifyHtmlRightEvent(row: number, column: number) {
         let id = this.buildCellId(row, column)
         let cell = document.getElementById(id)!!;
-        console.log('id', id)
         let value = document.querySelector("#" + id + " > .value")
         cell.removeChild(value)
 
