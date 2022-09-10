@@ -1,4 +1,5 @@
 import Finder from "./Finder"
+import Calculator from "./Calculator";
 
 class Board {
 
@@ -6,7 +7,8 @@ class Board {
     private arr: number[number[]];
     private readonly width: number;
     private readonly height: number;
-    private finder: Finder
+    private readonly finder: Finder
+    private calculator: Calculator
 
     constructor(length: number) {
         this.width = length;
@@ -14,6 +16,7 @@ class Board {
         this.event();
         this.init();
         this.finder = new Finder(length)
+        this.calculator = new Calculator(length, this.finder)
         console.log('init', this.arr)
     }
 
@@ -37,57 +40,45 @@ class Board {
     }
 
     arrowRight() {
-        for (let i = 0; i < this.width; i ++) {
-            let levelList = this.finder.exportNumber(this.arr, i)
+        for (let row = 0; row < this.width; row ++) {
+            let onlyNumberList = this.finder.exportNumber(this.arr, row)
+            let calculatedList = this.calculator.rightEventReduce(onlyNumberList)
 
-            for (let lv = levelList.length - 1 ; lv > 0; lv --) {
-                if (!(levelList) || levelList[lv] === 0) {
-                    continue
-                }
+            this.calculator.assignValueRightEvent(this.arr, calculatedList, row)
+        }
 
-                if (lv > 0 && levelList[lv-1] == levelList[lv]) {
-                    let lastIndex = this.finder.rightLastColumn(this.arr, i)
-                    this.arr[i][lastIndex] = levelList[lv] * 2
-                    levelList[lv] = 0
-                    levelList[lv-1] = 0
-                    console.log('arr', this.arr, i, lastIndex) // 1, 1이 왜 찍힘? // 1, 3 이 찍혀야함
-
-                    this.assignValue(i, lastIndex, this.arr[i][lastIndex])
-                    this.assignValue(i, lastIndex-1, 0)
-                }
+        for (let row = 0; row < this.height; row ++) {
+            for (let col = 0; col < this.width; col ++) {
+                this.modifyHtmlRightEvent(row, col)
             }
         }
     }
 
-    assignValue(row: number, column: number, calculated: number) {
-        let id = this.buildId(row, column)
-        console.log('assign start ---', id)
-        let cell = document.querySelector(id)!!;
-        console.log('assign', cell)
-        cell.innerHTML = String(calculated)
-        let value = cell.querySelector(id + ' > .value')!!
-        console.log('cacul', calculated)
-        // value.setAttribute("value", String(calculated))
-        value.innerHTML = String(calculated)
+    modifyHtmlRightEvent(row: number, column: number) {
+        let id = this.buildCellId(row, column)
+        let cell = document.getElementById(id)!!;
+        console.log('id', id)
+        let value = document.querySelector("#" + id + " > .value")
+        cell.removeChild(value)
+
+        let newValue = this.createElementAddClassName('div', 'value')
+        newValue.innerHTML = this.arr[row][column]
+        cell.appendChild(newValue)
     }
 
-    moveLast() {
-
-    }
-
-    buildId(row: number, column: number): String {
-        return '#id' + row + '_' + column
+    buildCellId(row: number, column: number): string {
+        return 'id' + row + '_' + column
     }
 
     drawBoard(id: String) {
-        var root = document.querySelector('#' + id);
-        var board = this.createElementAddClassName('div', 'board');
+        let root = document.querySelector('#' + id);
+        let board = this.createElementAddClassName('div', 'board');
 
         for (let i = 0; i < this.width; i++) {
-            var row = this.createElementAddClassName('div', 'board-row');
+            let row = this.createElementAddClassName('div', 'board-row');
             for (let j = 0; j < this.height; j ++) {
-                var cell = this.createElementAddClassName('div', 'cell');
-                cell.id =  this.buildId(i, j)
+                let cell = this.createElementAddClassName('div', 'cell');
+                cell.id =  this.buildCellId(i, j)
 
                 const value = this.createElementAddClassName('div', 'value');
                 value.innerText = (this.arr)[i][j];
@@ -129,7 +120,7 @@ class Board {
         return element;
     }
 
-    addClassName(htmlElement: HTMLElement, className: string[]): HTMLElement {
+    private addClassName(htmlElement: HTMLElement, className: string[]): HTMLElement {
         className.forEach(name => {
             htmlElement.classList.add(name)
         })

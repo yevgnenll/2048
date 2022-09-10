@@ -1,9 +1,10 @@
 import Calculator from "../src/Calculator"
 import { it, describe, expect } from "vitest";
+import Finder from "../src/Finder";
 
-let calculator = new Calculator()
+let calculator = new Calculator(4, new Finder(4))
 
-describe('calculator test', () => {
+describe('calculated List value test', () => {
 
     // level has no zero value in its array
     it('return [4, 4]', () => {
@@ -42,5 +43,64 @@ describe('calculator test', () => {
         expect(result.length).toEqual(4)
         expect(result).toEqual([2, 4, 8, 16])
     })
+})
+
+describe('assign array test', () => {
+    it('right pop', () => {
+        let calculated = [2, 8]
+        let pop = calculator.rightPop(calculated)
+
+        expect(pop.popValue).toEqual(8)
+        expect(pop.calculated.length).toEqual(1)
+        expect(pop.calculated).toEqual([2])
+    })
+
+
+    it('0 row, [0, 0, 2, 8]', () => {
+        let arr = initArray()
+        let level = [2, 8]
+        calculator.assignValueRightEvent(arr, level, 0)
+
+        expect(arr).toEqual(
+            [
+                [0, 0, 2, 8],
+                [0, 0, 0, 4],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+            ]
+        )
+    })
+
+    it('1 row, [0, 0, 0, 4]', () => {
+        let arr = initArray()
+        let level = [4]
+        calculator.assignValueRightEvent(arr, level, 1)
+
+        expect(arr).toEqual(
+            [
+                [2, 4, 4, 0],
+                [0, 0, 0, 4],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+            ]
+        )
+    })
+
+    it('change nothing', () => {
+        let arr = initArray()
+        let level = []
+
+        calculator.assignValueRightEvent(arr, level, 2)
+        expect(arr).toEqual(initArray())
+    })
 
 })
+
+function initArray(): number[][] {
+    return [
+        [2, 4, 4, 0],
+        [0, 0, 0, 4],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+    ]
+}

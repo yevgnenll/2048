@@ -10,7 +10,7 @@ export default class Finder {
         return (!(arr[row][column]) || arr[row][column] === 0)
     }
 
-    rightLastColumn(arr: number[][], row: number): number {
+    getLastColumnRight(arr: number[][], row: number): number {
         for (let i = this.length - 1; i > 0; i --) {
             if (!this.isAvailable(arr, row, i)) {
                 continue

@@ -9,12 +9,12 @@ describe('find last', () => {
         [0, 0, 0, 2],
     ]
     it('return 3', () => {
-        let index = finder.rightLastColumn(arr, 0)
+        let index = finder.getLastColumnRight(arr, 0)
         expect(index).toEqual(3)
     })
 
     it('return 2', () => {
-        let index = finder.rightLastColumn(arr, 1)
+        let index = finder.getLastColumnRight(arr, 1)
         expect(index).toEqual(2)
     })
 })
