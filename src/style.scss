@@ -1,0 +1,15 @@
+$cell-width: 100px;
+$cell-height:  100px;
+.board {
+  width: $cell-width * 4 + 12;
+  .board-row {
+    height: $cell-height;
+    .cell {
+      border: 1px solid aquamarine;
+      height: $cell-height;
+      display: inline-block;
+      width: $cell-width;
+      margin: auto;
+    }
+  }
+}
