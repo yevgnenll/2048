@@ -29,7 +29,7 @@ export default class Finder {
             }
         }
 
-        return level
+        return level.reverse()
     }
 
 }

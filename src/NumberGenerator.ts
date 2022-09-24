@@ -26,9 +26,7 @@ class NumberGenerator {
         let index = this.generateNumberByMax(emptyLocations.length-1)
         let pickedLocation = emptyLocations[index]
 
-        if (pickedLocation !== null) {
-            arr[pickedLocation.row][pickedLocation.column] = this.generateInitValue()
-        }
+        arr[pickedLocation.row][pickedLocation.column] = this.generateInitValue()
     }
 
     exportNotAssignedLocation(arr: number[][]): Array<Location> {

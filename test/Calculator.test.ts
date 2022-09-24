@@ -82,7 +82,7 @@ describe('assign array test', () => {
                 [0, 0, 2, 8],
                 [0, 0, 0, 4],
                 [0, 0, 0, 0],
-                [0, 0, 0, 0],
+                [0, 0, 0, 32],
             ]
         )
     })
@@ -97,7 +97,7 @@ describe('assign array test', () => {
                 [2, 4, 4, 0],
                 [0, 0, 0, 4],
                 [0, 0, 0, 0],
-                [0, 0, 0, 0],
+                [0, 0, 0, 32],
             ]
         )
     })
@@ -110,6 +110,32 @@ describe('assign array test', () => {
         expect(arr).toEqual(initArray())
     })
 
+    it('change nothing only 1', () => {
+        let arr = initArray()
+        let level = [32]
+
+        calculator.assignValueRightEvent(arr, level, 3)
+        expect(arr).toEqual(initArray())
+    })
+
+    it ('first row shift', () => {
+        let arr = [
+            [8, 8, 0, 0],
+            [0, 0, 0, 4],
+            [0, 0, 0, 0],
+            [0, 0, 0, 32],
+        ]
+        let level = [16]
+
+        calculator.assignValueRightEvent(arr, level, 0)
+        expect(arr).toEqual([
+            [0, 0, 0, 16],
+            [0, 0, 0, 4],
+            [0, 0, 0, 0],
+            [0, 0, 0, 32],
+        ])
+    })
+
 })
 
 function initArray(): number[][] {
@@ -117,6 +143,6 @@ function initArray(): number[][] {
         [2, 4, 4, 0],
         [0, 0, 0, 4],
         [0, 0, 0, 0],
-        [0, 0, 0, 0],
+        [0, 0, 0, 32],
     ]
 }
