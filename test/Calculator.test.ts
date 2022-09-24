@@ -9,20 +9,20 @@ describe('calculated List value test', () => {
     // level has no zero value in its array
     it('return [4, 4]', () => {
         let level = [2, 2, 2, 2]
-        let result = calculator.rightEventReduce(level)
+        let result = calculator.rightEventSumReduce(level)
         expect(result).toEqual([4, 4])
     })
 
     it('return [8, 2]', () => {
         let level = [4, 4, 2]
-        let result = calculator.rightEventReduce(level)
+        let result = calculator.rightEventSumReduce(level)
         expect(result.length).toEqual(2)
         expect(result).toEqual([8, 2])
     })
 
     it('return [2, 4], size 2', () => {
         let level = [2, 4]
-        let result = calculator.rightEventReduce(level)
+        let result = calculator.rightEventSumReduce(level)
 
         expect(result.length).toEqual(2)
         expect(result).toEqual([2, 4])
@@ -30,7 +30,7 @@ describe('calculated List value test', () => {
 
     it('return [2, 8]', () => {
         let level = [2, 4, 4]
-        let result = calculator.rightEventReduce(level)
+        let result = calculator.rightEventSumReduce(level)
 
         expect(result.length).toEqual(2)
         expect(result).toEqual([2, 8])
@@ -38,10 +38,26 @@ describe('calculated List value test', () => {
 
     it('return not changed', () => {
         let level = [2, 4, 8, 16]
-        let result = calculator.rightEventReduce(level)
+        let result = calculator.rightEventSumReduce(level)
 
         expect(result.length).toEqual(4)
         expect(result).toEqual([2, 4, 8, 16])
+    })
+
+    it('return [16, 8, 2]', () => {
+        let level = [16, 4, 4, 2]
+        let result = calculator.rightEventSumReduce(level)
+
+        expect(result.length).toEqual(3)
+        expect(result).toEqual([16, 8, 2])
+    })
+
+    it('only zero filled array', () => {
+        let level = [0, 0, 0, 0]
+        let result = calculator.rightEventSumReduce(level)
+
+        expect(result.length).toEqual(0)
+        expect(result).toEqual([])
     })
 })
 

@@ -45,7 +45,7 @@ class Board {
     arrowRight() {
         for (let row = 0; row < this.width; row ++) {
             let onlyNumberList = this.finder.exportNumber(this.arr, row)
-            let calculatedList = this.calculator.rightEventReduce(onlyNumberList)
+            let calculatedList = this.calculator.rightEventSumReduce(onlyNumberList)
 
             this.calculator.assignValueRightEvent(this.arr, calculatedList, row)
         }
@@ -102,7 +102,6 @@ class Board {
 
     event() {
         window.addEventListener('keydown', (event) => {
-            console.log('event', event.key)
             if (event.key === 'ArrowDown') {
 
             }

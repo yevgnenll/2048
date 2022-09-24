@@ -10,14 +10,25 @@ class NumberGenerator {
     }
 
     generateNumberByMax(max: number) {
+        max += 1
         return Math.floor(Math.random() * max)
     }
 
     assignRandom(arr: number[][]) {
-        let locations = this.exportNotAssignedLocation(arr)
-        let pickedLocation = locations[this.generateNumberByMax(locations.length)]
+        // find empty array
+        let emptyLocations = this.exportNotAssignedLocation(arr)
+        if (emptyLocations.length === 0) {
+            console.log('game over')
+            alert('game over')
+            return
+        }
+        // pick an item from empty location
+        let index = this.generateNumberByMax(emptyLocations.length-1)
+        let pickedLocation = emptyLocations[index]
 
-        arr[pickedLocation.row][pickedLocation.column] = this.generateInitValue()
+        if (pickedLocation !== null) {
+            arr[pickedLocation.row][pickedLocation.column] = this.generateInitValue()
+        }
     }
 
     exportNotAssignedLocation(arr: number[][]): Array<Location> {
@@ -30,7 +41,6 @@ class NumberGenerator {
                 result.push(new Location(i, j))
             }
         }
-        console.log('assign', arr)
         return result
     }
 
