@@ -20,6 +20,7 @@ class Board {
         this.finder = new Finder(length)
         this.calculator = new Calculator(length, this.finder)
         this.randomGenerator = new NumberGenerator()
+        this.profile()
         console.log('init', this.arr)
     }
 
@@ -131,6 +132,27 @@ class Board {
             htmlElement.classList.add(name)
         })
         return htmlElement
+    }
+
+    private profile() {
+        if (import.meta.env.dev) {
+            let root = document.querySelector('app');
+            let element = this.createElementAddClassName('div', 'debug')
+            element.innerText = 'arr number count: ' + this.countValidNumber()
+            root.appendChild(element)
+        }
+    }
+
+    private countValidNumber(): number {
+        let count = 0
+        for (let i = 0; i < this.height ; i++) {
+            for (let j = 0; j < this.width; j ++) {
+                if (this.arr[i][j] !== 0) {
+                    count += 1
+                }
+            }
+        }
+        return count
     }
 
 }
